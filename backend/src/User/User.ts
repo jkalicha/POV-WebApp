@@ -3,53 +3,51 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    private id: string;
+    private _id!: string;
 
     @Column()
-    private name: string;
+    private _name!: string;
 
     @Column({ unique: true })
-    private email: string;
+    private _email!: string;
 
     @Column()
-    private password: string;
+    private _password!: string;
 
-    constructor(id: string, name: string, email: string, password: string) {
+    constructor(name?: string, email?: string, password?: string) {
         // Validate inputs here --> check if email & password are valid
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
+        if (name) this._name = name;
+        if (email) this._email = email;
+        if (password) this._password = password;
     }
 
-    // Getters and Setters
-    public getPassword(): string {
-        return this.password;
+    // Getters
+    public get id(): string {
+        return this._id;
     }
 
-    public getId(): string {
-        return this.id;
+    public get name(): string {
+        return this._name;
     }
 
-    public getName(): string {
-        return this.name;
+    public get email(): string {
+        return this._email;
     }
 
-    public getEmail(): string {
-        return this.email;
+    public get password(): string {
+        return this._password;
     }
 
-    public setName(name: string): void {
-        this.name = name;
+    // Setters
+    public set name(value: string) {
+        this._name = value;
     }
 
-    public setEmail(email: string): void {
-        // Validate email before setting
-        this.email = email;
+    public set email(value: string) {
+        this._email = value;
     }
 
-    public setPassword(password: string): void {
-        // Validate password before setting
-        this.password = password;
+    public set password(value: string) {
+        this._password = value;
     }
 }

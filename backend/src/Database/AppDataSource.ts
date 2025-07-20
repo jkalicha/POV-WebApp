@@ -3,16 +3,13 @@ import { DataSource } from 'typeorm';
 import { User } from '../User/User';
 
 export const AppDataSource = new DataSource({
-  type: 'mssql',
+  type: 'postgres',
   host: 'localhost',
-  port: 1433,
-  username: 'jkalicha',
+  port: 5432,
+  username: 'postgres',
   password: '1234',
-  database: 'POV-WebApp',
-  synchronize: true, // Makes sure the database schema is in sync with the entities
+  database: 'pov_webapp',
+  synchronize: true,
   logging: true,
   entities: [User],
-  options: {
-    encrypt: false
-  }
 });
