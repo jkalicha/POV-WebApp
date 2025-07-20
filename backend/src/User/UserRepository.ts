@@ -26,4 +26,11 @@ export class UserRepository implements IRepository<User> {
     public async delete(id: string): Promise<void> {
         await this.userRepository.delete(id);
     }
+
+    //specific methods out of CRUD
+    public async getByEmail(email: string): Promise<User | null> {
+        return await this.userRepository.findOne({
+            where: { email: email }
+        });
+    }
 }
