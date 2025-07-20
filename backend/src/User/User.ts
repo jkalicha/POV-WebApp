@@ -1,7 +1,17 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity()
 export class User {
+    @PrimaryGeneratedColumn('uuid')
     private id: string;
+
+    @Column()
     private name: string;
+
+    @Column({ unique: true })
     private email: string;
+
+    @Column()
     private password: string;
 
     constructor(id: string, name: string, email: string, password: string) {
