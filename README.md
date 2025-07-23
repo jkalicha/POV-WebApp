@@ -15,3 +15,16 @@ Content-Type: application/json
 - `400`: Validation errors o email duplicado
 - `500`: Internal server error
 
+### **POST /auth/login** - Login Usuario
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+{
+  "email": "juan@example.com", 
+  "password": "Password123"
+}
+
+**Responses:**
+- `200`: Login exitoso + JWT token
+- `401`: Credenciales inválidas
+- `400`: Error de validación de datos
+- `500`: Error interno del servidor
