@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request, Response } from "express";
 import { AppDataSource } from "./Database/AppDataSource";
 import { UserController } from "./User/UserController";
@@ -5,7 +6,7 @@ import { UserService } from "./User/UserService";
 import { UserRepository } from "./User/UserRepository";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -22,6 +23,24 @@ app.post('/user', async (req: Request, res: Response) => {
     console.error('Error creating user:', error);
     if (error.message && error.message.includes('required')) {
       res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+});
+
+app.post('/auth/login', async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const token =await userController.loginUser(email, password);
+    res.status(200).json({ 
+      message: 'Login successful',
+      token: token
+     });
+  } catch (error: any) {
+    console.error('Error logging in:', error);
+    if (error.message.includes('Invalid') || error.message.includes('required')) {
+      res.status(401).json({ error: error.message });
     } else {
       res.status(500).json({ error: 'Internal server error' });
     }
