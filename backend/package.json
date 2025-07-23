@@ -16,7 +16,8 @@
     "express": "^5.1.0",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.25"
+    "typeorm": "^0.3.25",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

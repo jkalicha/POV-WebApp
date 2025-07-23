@@ -14,11 +14,12 @@ export class User {
     @Column()
     private _password!: string;
 
-    constructor(name?: string, email?: string, password?: string) {
+    constructor(name?: string, email?: string, password?: string, id?: string) {
         // Validate inputs here --> check if email & password are valid
         if (name) this._name = name;
         if (email) this._email = email;
         if (password) this._password = password;
+        if (id) this._id = id;
     }
 
     // Getters

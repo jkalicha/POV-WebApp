@@ -1,41 +1,50 @@
 import { User } from "./User";
 import { UserRepository } from "./UserRepository";
 import { IUserService } from "../Shared/IUserService";
+import crypto from "node:crypto";
+import { z } from "zod";
+
+const CreateUserSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(20, "Name must be less than 20 characters")
+    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, "Name can only contain letters and spaces"),
+  email: z
+    .email("Invalid email format")
+    .trim()
+    .min(1, "Email is required")
+    .max(50, "Email must be less than 50 characters"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long")
+    .max(128, "Password is too long")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+      "Password must contain at least one lowercase letter, one uppercase letter, and one number"
+    ),
+});
 
 export class UserService implements IUserService {
-    private _userRepository: UserRepository;
+  private _userRepository: UserRepository;
 
-    constructor(userRepository: UserRepository) {
-        this._userRepository = userRepository;
-    }
+  constructor(userRepository: UserRepository) {
+    this._userRepository = userRepository;
+  }
 
-    async createUser(name: string, email: string, password: string): Promise<void> {
-        if (!name || !email || !password) {
-            throw new Error('Name, email and password are required');
-        }
-        if (!this.isValidEmail(email)) {
-            throw new Error('Invalid email format');
-        }
-        if (!this.isValidPassword(password)) {
-            throw new Error('Password should contain at least 6 characters');
-        }
-        if (await this.isExistingUser(email)) {
-            throw new Error('Email already exists');
-        }
-        const user = new User(name, email, password);
-        await this._userRepository.create(user);
+  async createUser(name: string, email: string, password: string): Promise<void> {
+    const validatedData = CreateUserSchema.safeParse({name, email, password});
+    if (!validatedData.success) {
+      throw new Error(validatedData.error.issues.map((issue) => issue.message).join(", "));
     }
-
-    private isExistingUser(email: string): Promise<User | null> {
-        return this._userRepository.getByEmail(email);
+    const existingUser = await this._userRepository.getByEmail(validatedData.data.email);
+    if (existingUser) {
+        throw new Error('Email already exists');
     }
-
-    private isValidEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    private isValidPassword(password: string): boolean {
-        return password.length >= 6;
-    }
+    const userId = crypto.randomUUID();
+    const user = new User(
+        validatedData.data.name, validatedData.data.email, validatedData.data.password, userId);
+    await this._userRepository.create(user);
+  }
 }
