@@ -4,12 +4,12 @@ import { User } from '../User/User';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: '1234',
-  database: 'pov_webapp',
-  synchronize: true,
-  logging: true,
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || '1234',
+  database: process.env.DB_NAME || 'pov_webapp',
+  synchronize: process.env.NODE_ENV === 'development',
+  logging: process.env.NODE_ENV === 'development',
   entities: [User],
 });

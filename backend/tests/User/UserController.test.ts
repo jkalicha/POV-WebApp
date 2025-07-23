@@ -8,6 +8,7 @@ describe("UserController", () => {
   beforeEach(() => {
     mockUserService = {
       createUser: jest.fn(),
+      loginUser: jest.fn(),
     };
 
     userController = new UserController(mockUserService);
