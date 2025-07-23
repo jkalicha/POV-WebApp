@@ -10,7 +10,7 @@ const CreateUserSchema = z.object({
     .trim()
     .min(1, "Name is required")
     .max(20, "Name must be less than 20 characters")
-    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, "Name can only contain letters and spaces"),
+    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, "Invalid name"),
   email: z
     .email("Invalid email format")
     .trim()
