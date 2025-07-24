@@ -68,4 +68,6 @@ Content-Type: application/json
 - `403`: Token válido pero sin permisos
 - `500`: Internal server error
 
-🚧 En Desarrollo actualmente
+**🚧 En Desarrollo actualmente**
+
+Este proyecto es parte de mi aprendizaje como desarrollador. Estoy trabajando para aplicar lo que estudio sobre backend, arquitectura, testing y buenas prácticas de desarrollo moderno.
