@@ -1,5 +1,27 @@
 # POV-WebApp
-Aplicación web personal tipo "POV" para cargar fotos de eventos. Permite a los usuarios registrarse, crear eventos, invitar personas y subir fotos. Proyecto fullstack con Angular, Node.js (Express) + Testing con Jest, PostgreSQL.
+
+**POV-WebApp** es una aplicación web personal tipo "POV" para cargar fotos de eventos. Permite a los usuarios registrarse, crear eventos, invitar personas y subir fotos.  
+Está desarrollada como proyecto fullstack utilizando tecnologías modernas y buenas prácticas de arquitectura de software.
+
+## ⚙️ Tecnologías Utilizadas
+
+- **Frontend**: Angular  
+- **Backend**: Node.js + Express con TypeScript  
+- **Base de datos**: PostgreSQL  
+- **ORM**: TypeORM  
+- **Autenticación**: JWT  
+- **Testing**: Jest  
+- **Control de versiones**: GitFlow
+
+## 🧠 Arquitectura y buenas prácticas
+
+- Arquitectura limpia (**Clean Architecture**): separación por capas (Controller, Service, Repository, Entity)
+- Principios **SOLID**
+- Uso de **interfaces** para repositorios y servicios
+- Estructura basada en features (por ejemplo: `User`, `Event`)
+- Middleware de autenticación (`authMiddleware.ts`)
+- GitFlow: desarrollo por ramas `feature/`, integración en `develop`, despliegue desde `main`
+- Proyecto en constante evolución para aprender y aplicar buenas prácticas reales
 
 ## API Endpoints
 ### **POST /user** - Crear Usuario
@@ -26,5 +48,24 @@ Content-Type: application/json
 **Responses:**
 - `200`: Login exitoso + JWT token
 - `401`: Credenciales inválidas
-- `400`: Error de validación de datos
 - `500`: Error interno del servidor
+
+### **POST /event** - Crear Evento (Requiere autenticación)
+POST http://localhost:3000/event
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+
+{
+  "title": "Mi Cumpleaños",
+  "date": "2025-12-25T20:00:00.000Z",
+  "location": "Mi Casa"
+}
+
+**Responses:**
+- `201`: Event created successfully
+- `400`: Validation errors o título duplicado
+- `401`: Token requerido, inválido o expirado
+- `403`: Token válido pero sin permisos
+- `500`: Internal server error
+
+🚧 En Desarrollo actualmente

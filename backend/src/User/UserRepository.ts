@@ -1,8 +1,8 @@
 import { User } from "./User";
-import { IRepository } from "../Shared/IRepository";
 import { AppDataSource } from "../Database/AppDataSource";
+import { IUserRepository } from "../Shared/IUserRepository";
 
-export class UserRepository implements IRepository<User> {
+export class UserRepository implements IUserRepository {
     private userRepository = AppDataSource.getRepository(User);
 
     public async getAll(): Promise<User[]> {

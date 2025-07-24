@@ -1,10 +1,10 @@
 import { User } from "./User";
-import { UserRepository } from "./UserRepository";
 import { IUserService } from "../Shared/IUserService";
 import crypto from "node:crypto";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions }from "jsonwebtoken";
+import { IUserRepository } from "../Shared/IUserRepository";
 
 export const SALT_ROUNDS = 10;
 const CreateUserSchema = z.object({
@@ -46,9 +46,9 @@ const LoginUserSchema = z.object({
 });
 
 export class UserService implements IUserService {
-  private _userRepository: UserRepository;
+  private _userRepository: IUserRepository;
 
-  constructor(userRepository: UserRepository) {
+  constructor(userRepository: IUserRepository) {
     this._userRepository = userRepository;
   }
 
