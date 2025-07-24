@@ -47,6 +47,21 @@ app.post('/auth/login', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/event', async (req: Request, res: Response) => {
+  try {
+    const { title, date, location } = req.body;
+    await userController.createEvent(title, date, location);
+    res.status(201).json({ message: 'Event created successfully' });
+  } catch (error: any) {
+    console.error('Error creating event:', error);
+    if (error.message && error.message.includes('required')) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+});
+
 AppDataSource.initialize()
   .then(() => {
     console.log("Database connected");
