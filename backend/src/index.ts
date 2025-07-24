@@ -11,6 +11,7 @@ import { EventService } from './Event/EventService';
 import { IEventRepository } from './Shared/IEventRepository';
 import { EventController } from './Event/EventController';
 import { EventRepository } from './Event/EventRepository';
+import { authenticateToken, AuthenticatedRequest } from './Shared/authMiddleware';
 
 
 const app = express();
@@ -59,10 +60,14 @@ app.post('/auth/login', async (req: Request, res: Response) => {
   }
 });
 
-app.post('/event', async (req: Request, res: Response) => {
+app.post('/event', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { title, date, location } = req.body;
-    await eventController.createEvent(title, date, location);
+    const userId = (req as AuthenticatedRequest).user?.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized action' });
+    }
+    await eventController.createEvent(title, date, location, userId);
     res.status(201).json({ message: 'Event created successfully' });
   } catch (error: any) {
     console.error('Error creating event:', error);
