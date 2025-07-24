@@ -48,7 +48,24 @@ Content-Type: application/json
 **Responses:**
 - `200`: Login exitoso + JWT token
 - `401`: Credenciales inválidas
-- `400`: Error de validación de datos
 - `500`: Error interno del servidor
+
+### **POST /event** - Crear Evento (Requiere autenticación)
+POST http://localhost:3000/event
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+
+{
+  "title": "Mi Cumpleaños",
+  "date": "2025-12-25T20:00:00.000Z",
+  "location": "Mi Casa"
+}
+
+**Responses:**
+- `201`: Event created successfully
+- `400`: Validation errors o título duplicado
+- `401`: Token requerido, inválido o expirado
+- `403`: Token válido pero sin permisos
+- `500`: Internal server error
 
 🚧 En Desarrollo actualmente

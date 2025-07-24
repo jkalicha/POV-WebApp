@@ -7,7 +7,7 @@ export class EventController {
     this._eventService = eventService;
   }
 
-  async createEvent(title: string, date: Date, location: string, ownerId: string): Promise<void> {
+  async createEvent(title: string, date: string, location: string, ownerId: string): Promise<void> {
     await this._eventService.createEvent(title, date, location, ownerId);
   }
 }

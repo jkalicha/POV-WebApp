@@ -27,55 +27,71 @@ const eventRepository: IEventRepository = new EventRepository();
 const eventService: IEventService = new EventService(eventRepository);
 const eventController = new EventController(eventService);
 
+const handleError = (error: any, res: Response) => {
+  console.error('Error:', error);
+  
+  if (error.message) {
+    if (error.message.includes('required') || 
+        error.message.includes('already exists') ||
+        error.message.includes('Invalid') ||
+        error.message.includes('String must contain at least') ||
+        error.message.includes('Invalid uuid') ||
+        error.message.includes('Email already exists')) {
+      return res.status(400).json({ error: error.message });
+    }
+    if (error.message.includes('Invalid email or password') ||
+        error.message.includes('Unauthorized') ||
+        error.message.includes('Access token required') ||
+        error.message.includes('Token expired') ||
+        error.message.includes('Invalid token')) {
+      return res.status(401).json({ error: error.message });
+    }
+    if (error.message.includes('Forbidden') ||
+        error.message.includes('Not allowed') ||
+        error.message.includes('Permission denied')) {
+      return res.status(403).json({ error: error.message });
+    }
+  }
+  return res.status(500).json({ error: 'Internal server error' });
+};
+
 app.post('/user', async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
+
     await userController.createUser(name, email, password);
+
     res.status(201).json({ message: 'User created successfully' });
   } catch (error: any) {
-    console.error('Error creating user:', error);
-    if (error.message && error.message.includes('required')) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    handleError(error, res);
   }
 });
 
 app.post('/auth/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const token =await userController.loginUser(email, password);
+
+    const token = await userController.loginUser(email, password);
+
     res.status(200).json({ 
       message: 'Login successful',
       token: token
      });
   } catch (error: any) {
-    console.error('Error logging in:', error);
-    if (error.message.includes('Invalid') || error.message.includes('required')) {
-      res.status(401).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    handleError(error, res);
   }
 });
 
-app.post('/event', authenticateToken, async (req: Request, res: Response) => {
+app.post('/event', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { title, date, location } = req.body;
-    const userId = (req as AuthenticatedRequest).user?.userId;
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized action' });
-    }
-    await eventController.createEvent(title, date, location, userId);
+    const ownerId = req.user!.userId;
+    
+    await eventController.createEvent(title, date, location, ownerId);
+    
     res.status(201).json({ message: 'Event created successfully' });
   } catch (error: any) {
-    console.error('Error creating event:', error);
-    if (error.message && error.message.includes('required')) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    handleError(error, res);
   }
 });
 

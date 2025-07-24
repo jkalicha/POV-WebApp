@@ -1,3 +1,3 @@
 export interface IEventService {
-    createEvent(title: string, date: Date, location: string, ownerId: string): Promise<void>;
+    createEvent(title: string, date: string, location: string, ownerId: string): Promise<void>;
 }
