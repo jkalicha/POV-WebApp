@@ -1,5 +1,6 @@
 import { IEventRepository } from "../Shared/IEventRepository";
 import { IEventService } from "../Shared/IEventService";
+import { Event } from "./Event";
 import { z } from "zod";
 
 const CreateEventSchema = z.object({
@@ -21,6 +22,11 @@ export class EventService implements IEventService {
         if (!parsedData.success) {
             throw new Error(parsedData.error.issues.map((issue) => issue.message).join(", "));
         }
-        await this.eventRepository.createEvent(parsedData.data.title, parsedData.data.date, parsedData.data.location, parsedData.data.ownerId);
+        const existingEvent = await this.eventRepository.getByTitle(parsedData.data.title);
+        if (existingEvent) {
+            throw new Error(`Event with title "${parsedData.data.title}" already exists.`);
+        }
+        const event = new Event(parsedData.data.title, parsedData.data.date, parsedData.data.location, parsedData.data.ownerId);
+        await this.eventRepository.create(event);
     }
 }

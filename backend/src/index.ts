@@ -7,6 +7,10 @@ import { UserService } from './User/UserService';
 import { UserRepository } from "./User/UserRepository";
 import { IEventService } from './Shared/IEventService';
 import { IUserRepository } from './Shared/IUserRepository';
+import { EventService } from './Event/EventService';
+import { IEventRepository } from './Shared/IEventRepository';
+import { EventController } from './Event/EventController';
+import { EventRepository } from './Event/EventRepository';
 
 
 const app = express();
@@ -17,6 +21,10 @@ app.use(express.json());
 const userRepository: IUserRepository = new UserRepository();
 const userService: IUserService = new UserService(userRepository);
 const userController = new UserController(userService);
+
+const eventRepository: IEventRepository = new EventRepository();
+const eventService: IEventService = new EventService(eventRepository);
+const eventController = new EventController(eventService);
 
 app.post('/user', async (req: Request, res: Response) => {
   try {
