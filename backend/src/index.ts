@@ -2,16 +2,20 @@ import 'dotenv/config';
 import express, { Request, Response } from "express";
 import { AppDataSource } from "./Database/AppDataSource";
 import { UserController } from "./User/UserController";
-import { UserService } from "./User/UserService";
+import { IUserService } from "./Shared/IUserService";
+import { UserService } from './User/UserService';
 import { UserRepository } from "./User/UserRepository";
+import { IEventService } from './Shared/IEventService';
+import { IUserRepository } from './Shared/IUserRepository';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
+const userRepository: IUserRepository = new UserRepository();
+const userService: IUserService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 app.post('/user', async (req: Request, res: Response) => {
