@@ -1,4 +1,4 @@
-import { IEventService } from "../Shared/IEventService";
+import { IEventService } from "../EventInterfaces/IEventService";
 
 export class EventController {
   private _eventService: IEventService;

@@ -1,10 +1,10 @@
 import { User } from "./User";
-import { IUserService } from "../Shared/IUserService";
+import { IUserService } from "../UserInterfaces/IUserService";
 import crypto from "node:crypto";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions }from "jsonwebtoken";
-import { IUserRepository } from "../Shared/IUserRepository";
+import { IUserRepository } from "../UserInterfaces/IUserRepository";
 
 export const SALT_ROUNDS = 10;
 const CreateUserSchema = z.object({

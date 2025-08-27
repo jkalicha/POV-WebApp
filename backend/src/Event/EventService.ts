@@ -1,5 +1,5 @@
 import { IEventRepository } from "../Shared/IEventRepository";
-import { IEventService } from "../Shared/IEventService";
+import { IEventService } from "../EventInterfaces/IEventService";
 import { Event } from "./Event";
 import { z } from "zod";
 
