@@ -1,5 +1,5 @@
 import { UserController } from "../../src/User/UserController";
-import { IUserService } from "../../src/Shared/IUserService";
+import { IUserService } from "../../src/UserInterfaces/IUserService";
 
 describe("UserController", () => {
   let userController: UserController;

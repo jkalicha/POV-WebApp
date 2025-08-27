@@ -1,5 +1,5 @@
 import { EventController } from "../../src/Event/EventController";
-import { IEventService } from "../../src/Shared/IEventService";
+import { IEventService } from "../../src/EventInterfaces/IEventService";
 
 describe("EventController", () => {
   let eventController: EventController;

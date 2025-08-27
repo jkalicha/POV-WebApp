@@ -1,4 +1,4 @@
-import { IRepository } from "./IRepository";
+import { IRepository } from "../Shared/IRepository";
 import { User } from "../User/User";
 
 export interface IUserRepository extends IRepository<User> {
