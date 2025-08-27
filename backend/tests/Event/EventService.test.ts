@@ -1,5 +1,5 @@
 import { EventService } from "../../src/Event/EventService";
-import { IEventRepository } from "../../src/Shared/IEventRepository";
+import { IEventRepository } from "../../src/EventInterfaces/IEventRepository";
 
 describe("EventService", () => {
   let eventService: EventService;
