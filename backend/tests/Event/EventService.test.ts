@@ -26,6 +26,55 @@ describe("EventService", () => {
     eventService = new EventService(mockEventRepository, mockEventInvitationRepository);
   });
 
+  describe("getEventsForUser", () => {
+    it("should return both owner and invited events", async () => {
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+      const ownerEvent = { id: "1" } as any;
+      const invitedEvent = { id: "2" } as any;
+      mockEventRepository.getByUserId.mockResolvedValue([ownerEvent]);
+      mockEventInvitationRepository.getEventIdsByUserId.mockResolvedValue(["2"]);
+      mockEventRepository.getByIds.mockResolvedValue([invitedEvent]);
+
+      const result = await eventService.getEventsForUser(userId);
+      expect(mockEventRepository.getByUserId).toHaveBeenCalledWith(userId);
+      expect(mockEventInvitationRepository.getEventIdsByUserId).toHaveBeenCalledWith(userId);
+      expect(mockEventRepository.getByIds).toHaveBeenCalledWith(["2"]);
+      expect(result).toEqual({ owner: [ownerEvent], invited: [invitedEvent] });
+    });
+
+    it("should return only owner events if no invitations", async () => {
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+      const ownerEvent = { id: "1" } as any;
+      mockEventRepository.getByUserId.mockResolvedValue([ownerEvent]);
+      mockEventInvitationRepository.getEventIdsByUserId.mockResolvedValue([]);
+      mockEventRepository.getByIds.mockResolvedValue([]);
+
+      const result = await eventService.getEventsForUser(userId);
+      expect(result).toEqual({ owner: [ownerEvent], invited: [] });
+    });
+
+    it("should return only invited events if not owner of any", async () => {
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+      const invitedEvent = { id: "2" } as any;
+      mockEventRepository.getByUserId.mockResolvedValue([]);
+      mockEventInvitationRepository.getEventIdsByUserId.mockResolvedValue(["2"]);
+      mockEventRepository.getByIds.mockResolvedValue([invitedEvent]);
+
+      const result = await eventService.getEventsForUser(userId);
+      expect(result).toEqual({ owner: [], invited: [invitedEvent] });
+    });
+
+    it("should return empty arrays if no events", async () => {
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+      mockEventRepository.getByUserId.mockResolvedValue([]);
+      mockEventInvitationRepository.getEventIdsByUserId.mockResolvedValue([]);
+      mockEventRepository.getByIds.mockResolvedValue([]);
+
+      const result = await eventService.getEventsForUser(userId);
+      expect(result).toEqual({ owner: [], invited: [] });
+    });
+  });
+
   describe("createEvent", () => {
     it("should create an event with valid data", async () => {
       const title = "Birthday Party";
