@@ -13,6 +13,7 @@ describe("EventService", () => {
       getAll: jest.fn(),
       getById: jest.fn(),
       getByTitle: jest.fn(),
+      getByUserId: jest.fn()
     };
 
     eventService = new EventService(mockEventRepository);
