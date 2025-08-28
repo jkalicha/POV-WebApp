@@ -1,5 +1,5 @@
 import { AppDataSource } from "../Database/AppDataSource";
-import { IEventRepository } from "../Shared/IEventRepository";
+import { IEventRepository } from "../EventInterfaces/IEventRepository";
 import { Event } from "./Event";
 
 export class EventRepository implements IEventRepository {
@@ -27,5 +27,9 @@ export class EventRepository implements IEventRepository {
 
     public async getByTitle(title: string): Promise<Event | null> {
         return this.eventRepository.findOneBy({ title });
+    }
+
+    public async getByUserId(userId: string): Promise<Event[]> {
+        return (await this.getAll()).filter(event => event.ownerId === userId);
     }
 }
