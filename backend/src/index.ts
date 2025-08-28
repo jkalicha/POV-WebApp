@@ -11,6 +11,7 @@ import { EventService } from './Event/EventService';
 import { IEventRepository } from './EventInterfaces/IEventRepository';
 import { EventController } from './Event/EventController';
 import { EventRepository } from './Event/EventRepository';
+import { EventInvitationRepository } from './Event/EventInvitationRepository';
 import { authenticateToken, AuthenticatedRequest } from './Shared/authMiddleware';
 
 
@@ -24,7 +25,8 @@ const userService: IUserService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 const eventRepository: IEventRepository = new EventRepository();
-const eventService: IEventService = new EventService(eventRepository);
+const eventInvitationRepository = new EventInvitationRepository();
+const eventService: IEventService = new EventService(eventRepository, eventInvitationRepository);
 const eventController = new EventController(eventService);
 
 const handleError = (error: any, res: Response) => {
@@ -90,6 +92,16 @@ app.post('/event', authenticateToken, async (req: AuthenticatedRequest, res: Res
     await eventController.createEvent(title, date, location, ownerId);
     
     res.status(201).json({ message: 'Event created successfully' });
+  } catch (error: any) {
+    handleError(error, res);
+  }
+});
+
+app.get('/events', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+    const events = await eventController.getEventsForUser(userId);
+    res.status(200).json(events);
   } catch (error: any) {
     handleError(error, res);
   }

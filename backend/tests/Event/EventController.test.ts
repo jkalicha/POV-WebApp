@@ -1,5 +1,6 @@
 import { EventController } from "../../src/Event/EventController";
 import { IEventService } from "../../src/EventInterfaces/IEventService";
+import { Event } from "../../src/Event/Event";
 
 describe("EventController", () => {
   let eventController: EventController;
@@ -8,9 +9,26 @@ describe("EventController", () => {
   beforeEach(() => {
     mockEventService = {
       createEvent: jest.fn(),
-    };
-
+      getEventsForUser: jest.fn(),
+    } as jest.Mocked<IEventService>;
     eventController = new EventController(mockEventService);
+  });
+  
+  describe("getEventsForUser", () => {
+    it("should return events from eventService", async () => {
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+      const ownerEvent = new Event("Evento Propio", new Date(), "Casa", userId);
+      const invitedEvent = new Event("Evento Invitado", new Date(), "Salon", "otro");
+      const mockResult = {
+        owner: [ownerEvent],
+        invited: [invitedEvent]
+      };
+      mockEventService.getEventsForUser.mockResolvedValue(mockResult);
+
+      const result = await eventController.getEventsForUser(userId);
+      expect(mockEventService.getEventsForUser).toHaveBeenCalledWith(userId);
+      expect(result).toEqual(mockResult);
+    });
   });
 
   describe("createEvent", () => {

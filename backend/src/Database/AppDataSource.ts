@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { User } from '../User/User';
 import { Event } from '../Event/Event';
+import { EventInvitation } from "../Event/EventInvitation";
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -12,5 +13,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || 'pov_webapp',
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities: [User, Event],
+  entities: [User, Event, EventInvitation],
 });

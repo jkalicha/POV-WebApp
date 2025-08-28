@@ -10,4 +10,8 @@ export class EventController {
   async createEvent(title: string, date: string, location: string, ownerId: string): Promise<void> {
     await this._eventService.createEvent(title, date, location, ownerId);
   }
+
+  async getEventsForUser(userId: string) {
+    return this._eventService.getEventsForUser(userId);
+  }
 }
