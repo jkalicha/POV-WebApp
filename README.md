@@ -68,6 +68,21 @@ Content-Type: application/json
 - `403`: Token válido pero sin permisos
 - `500`: Internal server error
 
+### **GET /events** - Obtener eventos donde participa el usuario autenticado
+GET http://localhost:3000/events
+Authorization: Bearer <JWT_TOKEN>
+
+**Response format:**
+{
+  "owner": [ /* eventos donde el usuario es owner */ ],
+  "invited": [ /* eventos donde el usuario está invitado */ ]
+}
+
+**Responses:**
+- `200`: Lista de eventos (propios e invitado)
+- `401`: Token requerido, inválido o expirado
+- `500`: Internal server error
+
 **🚧 En Desarrollo actualmente**
 
 Este proyecto es parte de mi aprendizaje como desarrollador. Estoy trabajando para aplicar lo que estudio sobre backend, arquitectura, testing y buenas prácticas de desarrollo moderno.

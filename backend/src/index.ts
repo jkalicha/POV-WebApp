@@ -97,6 +97,16 @@ app.post('/event', authenticateToken, async (req: AuthenticatedRequest, res: Res
   }
 });
 
+app.get('/events', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+    const events = await eventController.getEventsForUser(userId);
+    res.status(200).json(events);
+  } catch (error: any) {
+    handleError(error, res);
+  }
+});
+
 AppDataSource.initialize()
   .then(() => {
     console.log("Database connected");
