@@ -11,6 +11,7 @@ import { EventService } from './Event/EventService';
 import { IEventRepository } from './EventInterfaces/IEventRepository';
 import { EventController } from './Event/EventController';
 import { EventRepository } from './Event/EventRepository';
+import { EventInvitationRepository } from './Event/EventInvitationRepository';
 import { authenticateToken, AuthenticatedRequest } from './Shared/authMiddleware';
 
 
@@ -24,7 +25,8 @@ const userService: IUserService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 const eventRepository: IEventRepository = new EventRepository();
-const eventService: IEventService = new EventService(eventRepository);
+const eventInvitationRepository = new EventInvitationRepository();
+const eventService: IEventService = new EventService(eventRepository, eventInvitationRepository);
 const eventController = new EventController(eventService);
 
 const handleError = (error: any, res: Response) => {

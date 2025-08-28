@@ -1,9 +1,11 @@
 import { EventService } from "../../src/Event/EventService";
 import { IEventRepository } from "../../src/EventInterfaces/IEventRepository";
+import { IEventInvitationRepository } from "../../src/EventInterfaces/IEventInvitationRepository";
 
 describe("EventService", () => {
   let eventService: EventService;
   let mockEventRepository: jest.Mocked<IEventRepository>;
+  let mockEventInvitationRepository: jest.Mocked<IEventInvitationRepository>;
 
   beforeEach(() => {
     mockEventRepository = {
@@ -13,10 +15,15 @@ describe("EventService", () => {
       getAll: jest.fn(),
       getById: jest.fn(),
       getByTitle: jest.fn(),
-      getByUserId: jest.fn()
+      getByUserId: jest.fn(),
+      getByIds: jest.fn(),
     };
 
-    eventService = new EventService(mockEventRepository);
+      mockEventInvitationRepository = {
+        getEventIdsByUserId: jest.fn(),
+      } as jest.Mocked<IEventInvitationRepository>;
+
+    eventService = new EventService(mockEventRepository, mockEventInvitationRepository);
   });
 
   describe("createEvent", () => {
