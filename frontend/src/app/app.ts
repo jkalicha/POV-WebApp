@@ -6,7 +6,7 @@ import { Navbar } from './components/navbar/navbar';
   selector: 'app-root',
   imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss']
+  styleUrls: []
 })
 export class App {
   protected readonly title = signal('pov-frontend');
