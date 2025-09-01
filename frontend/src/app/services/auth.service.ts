@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:4200/auth/login';
+  private apiUrl = 'http://localhost:3000/auth/login';
 
   constructor(private http: HttpClient) {}
 
