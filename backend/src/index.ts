@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express, { Request, Response } from "express";
+import cors from 'cors';
 import { AppDataSource } from "./Database/AppDataSource";
 import { UserController } from "./User/UserController";
 import { IUserService } from "./UserInterfaces/IUserService";
@@ -18,6 +19,12 @@ import { authenticateToken, AuthenticatedRequest } from './Shared/authMiddleware
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(express.json());
 
 const userRepository: IUserRepository = new UserRepository();
