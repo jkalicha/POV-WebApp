@@ -11,14 +11,18 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './login.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class Login {
   email = '';
   password = '';
   error = '';
 
-  constructor(private auth: AuthService, private userService: UserService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   async login() {
     try {
@@ -28,6 +32,10 @@ export class Login {
     } catch (err) {
       this.error = 'Credenciales inválidas';
     }
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 
   async crearUsuario() {
