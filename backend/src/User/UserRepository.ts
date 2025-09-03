@@ -1,6 +1,6 @@
 import { User } from "./User";
 import { AppDataSource } from "../Database/AppDataSource";
-import { IUserRepository } from "../Shared/IUserRepository";
+import { IUserRepository } from "../UserInterfaces/IUserRepository";
 
 export class UserRepository implements IUserRepository {
     private userRepository = AppDataSource.getRepository(User);

@@ -2,17 +2,45 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <h2 class="mb-4 text-center">Iniciar sesión</h2>
-      <form>
+      <form (ngSubmit)="login()" #loginForm="ngForm">
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" required>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+            [(ngModel)]="email"
+            #emailInput="ngModel"
+          />
+          <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
+            El email es obligatorio.
+          </div>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="password" required>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+            [(ngModel)]="password"
+            #passwordInput="ngModel"
+          />
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+            La contraseña es obligatoria.
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        <button type="submit" class="btn btn-primary w-100 mb-2" [disabled]="loginForm.invalid">
+          Entrar
+        </button>
       </form>
+      <div class="mt-3 text-center">
+        ¿No estás registrado?
+        <button class="btn btn-link" type="button" (click)="goToRegister()">Registrate</button>
+      </div>
     </div>
   </div>
 </div>
