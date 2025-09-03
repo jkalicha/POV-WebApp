@@ -1,13 +1,27 @@
-<div class="container mt-5">
-	<div class="row justify-content-center">
-		<div class="col-md-8 text-center">
-			<h1 class="mb-4">Bienvenido a POV WebApp</h1>
-			<p class="lead mb-4">¡El POV de tus eventos, más real que nunca!</p>
-			<a routerLink="/login" class="btn btn-primary btn-lg">Iniciar sesión</a>
-			<div class="mt-3">
-				¿No estás registrado?
-				<a routerLink="/register" class="btn btn-link">Registrate</a>
-			</div>
-		</div>
-	</div>
+<div *ngIf="!isLoggedIn">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <h1 class="mb-4">Bienvenido a POV WebApp</h1>
+        <p class="lead mb-4">¡El POV de tus eventos, más real que nunca!</p>
+        <a routerLink="/login" class="btn btn-primary btn-lg">Iniciar sesión</a>
+        <div class="mt-3">
+          ¿No estás registrado?
+          <a routerLink="/register" class="btn btn-link">Registrate</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoggedIn">
+  <div class="container mt-5">
+    <h2>Eventos a los que estás invitado</h2>
+    <div class="row">
+      <!--aca van a ir las cards-->
+    </div>
+    <h2 class="mt-5">Tus propios eventos</h2>
+    <div class="row">
+      <!--aca van a ir las cards-->
+    </div>
+  </div>
 </div>
