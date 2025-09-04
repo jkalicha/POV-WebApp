@@ -24,8 +24,16 @@ export class Register {
     try {
       await this.userService.createUser(this.name, this.email, this.password);
       alert('Usuario creado correctamente');
-    } catch (err) {
-      this.error = 'Error al crear usuario';
+    } catch (err: any) {
+      // Extraer el mensaje de error del backend
+      if (err.error && err.error.error) {
+        this.error = err.error.error;
+      } else if (err.message) {
+        this.error = err.message;
+      } else {
+        this.error = 'Error al crear usuario';
+      }
+      console.error('Error completo:', err);
     }
   }
 

@@ -1,24 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<header class="nav-shell">
   <div class="container">
-  <a class="navbar-brand" routerLink="/">POV WebApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/acerca">Acerca</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/contacto">Contacto</a>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link btn btn-link" (click)="logout()">Cerrar sesión</button>
-        </li>
-      </ul>
+    <div class="nav-inner">
+      <a routerLink="/" class="brand">POV WebApp</a>
+      <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="active" class="nav-link">Inicio</a>
+        <a routerLink="/acerca" routerLinkActive="active" class="nav-link">Acerca</a>
+        <a routerLink="/contacto" routerLinkActive="active" class="nav-link">Contacto</a>
+        <button class="btn-logout" (click)="logout()">
+          <span class="bi bi-box-arrow-right"></span>
+          Cerrar sesión
+        </button>
+      </nav>
     </div>
   </div>
-</nav>
+  </header>
