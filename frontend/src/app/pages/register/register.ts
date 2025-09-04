@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './register.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class Register {
   name = '';
