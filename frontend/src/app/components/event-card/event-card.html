@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">{{ event.title }}</h5>
+    <p class="card-text">
+      <i class="bi bi-calendar"></i> {{ event.date | date:'dd/MM/yyyy HH:mm' }}
+    </p>
+    <p class="card-text">
+      <i class="bi bi-geo-alt"></i> {{ event.location }}
+    </p>
+    <div class="card-footer" *ngIf="isOwner">
+      <small class="text-muted">Organizas este evento</small>
+    </div>
+    <div class="card-footer" *ngIf="!isOwner">
+      <small class="text-muted">Estás invitado</small>
+    </div>
+  </div>
+</div>

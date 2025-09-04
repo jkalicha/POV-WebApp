@@ -31,20 +31,33 @@ export class EventService implements IEventService {
 
   public async getEventsForUser(
     userId: string
-  ): Promise<{ owner: Event[]; invited: Event[] }> {
+  ): Promise<{ owner: any[]; invited: any[] }> {
     const ownerEvents = await this.eventRepository.getByUserId(userId);
     const eventIds = await this.eventInvitationRepository.getEventIdsByUserId(
       userId
     );
     const invitedEvents =
       eventIds.length > 0 ? await this.eventRepository.getByIds(eventIds) : [];
-
-    // Filtrar los que no son owner
     const onlyInvited = invitedEvents.filter(
       (e) => !ownerEvents.some((o) => o.id === e.id)
     );
 
-    return { owner: ownerEvents, invited: onlyInvited };
+    // Mapear a objetos planos usando las propiedades públicas
+    const mapEvent = (e: any) => {
+      console.log('Evento recibido para mapear:', e);
+      return {
+        id: e.id,
+        title: e.title,
+        date: e.date,
+        location: e.location,
+        ownerId: e.ownerId,
+      };
+    };
+
+    return {
+      owner: ownerEvents.map(mapEvent),
+      invited: onlyInvited.map(mapEvent),
+    };
   }
 
   public async createEvent(

@@ -17,11 +17,15 @@
   <div class="container mt-5">
     <h2>Eventos a los que estás invitado</h2>
     <div class="row">
-      <!--aca van a ir las cards-->
+      <div class="col-md-4" *ngFor="let event of invitedEvents">
+        <app-event-card [event]="event" [isOwner]="false"></app-event-card>
+      </div>
     </div>
     <h2 class="mt-5">Tus propios eventos</h2>
     <div class="row">
-      <!--aca van a ir las cards-->
+      <div class="col-md-4" *ngFor="let event of ownedEvents">
+        <app-event-card [event]="event" [isOwner]="true"></app-event-card>
+      </div>
     </div>
   </div>
 </div>
