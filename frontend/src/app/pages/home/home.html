@@ -1,13 +1,44 @@
-<div class="container mt-5">
-	<div class="row justify-content-center">
-		<div class="col-md-8 text-center">
-			<h1 class="mb-4">Bienvenido a POV WebApp</h1>
-			<p class="lead mb-4">¡El POV de tus eventos, más real que nunca!</p>
-			<a routerLink="/login" class="btn btn-primary btn-lg">Iniciar sesión</a>
-			<div class="mt-3">
-				¿No estás registrado?
-				<a routerLink="/register" class="btn btn-link">Registrate</a>
-			</div>
-		</div>
-	</div>
+<div *ngIf="!isLoggedIn">
+  <div class="container mt-5">
+    <div class="hero text-center">
+      <h1 class="mb-2">POV WebApp</h1>
+      <p class="lead mb-3">Organiza, invita y mide el desempeño de tus eventos.</p>
+      <div class="d-flex justify-content-center gap-2">
+        <a routerLink="/login" class="btn btn-light btn-lg">Iniciar sesión</a>
+        <a routerLink="/register" class="btn btn-outline-light btn-lg">Registrate</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoggedIn">
+  <div class="container mt-4">
+    <div class="d-flex" style="justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px;">
+      <h2 style="margin:0;">Tu panel</h2>
+      <a routerLink="/event" class="btn btn-light">
+        <span class="bi bi-plus-circle"></span> Crear evento
+      </a>
+    </div>
+
+  <!-- Desempeño / Stats -->
+  <app-stats-panel [invitedEvents]="invitedEvents" [ownedEvents]="ownedEvents"></app-stats-panel>
+
+    <div class="spacer"></div>
+
+    <div style="display:grid; grid-template-columns: 1fr 320px; gap: 16px; align-items:start;">
+      <div>
+        <h2 class="section-title"><span class="bi bi-person-check"></span> Invitaciones</h2>
+        <div class="grid">
+          <app-event-card *ngFor="let event of invitedEvents" [event]="event" [isOwner]="false"></app-event-card>
+        </div>
+
+        <h2 class="section-title mt-4"><span class="bi bi-star"></span> Tus eventos</h2>
+        <div class="grid">
+          <app-event-card *ngFor="let event of ownedEvents" [event]="event" [isOwner]="true"></app-event-card>
+        </div>
+      </div>
+
+  <app-calendar-card [events]="allEvents"></app-calendar-card>
+    </div>
+  </div>
 </div>

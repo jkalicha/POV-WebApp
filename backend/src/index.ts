@@ -45,7 +45,9 @@ const handleError = (error: any, res: Response) => {
         error.message.includes('Invalid') ||
         error.message.includes('String must contain at least') ||
         error.message.includes('Invalid uuid') ||
-        error.message.includes('Email already exists')) {
+        error.message.includes('Email already exists') ||
+        error.message.includes('Password must be at least') ||
+        error.message.includes('Password must contain')) {
       return res.status(400).json({ error: error.message });
     }
     if (error.message.includes('Invalid email or password') ||

@@ -28,6 +28,7 @@ export class Login {
     try {
       const res = await this.auth.login(this.email, this.password);
       localStorage.setItem('token', res.token);
+      this.auth.checkAuthState(); // Notifica al servicio
       this.router.navigate(['/']);
     } catch (err) {
       this.error = 'Credenciales inválidas';

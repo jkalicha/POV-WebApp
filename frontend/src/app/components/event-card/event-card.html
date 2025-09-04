@@ -1,0 +1,19 @@
+<div class="ev-card">
+  <div class="ev-card__body">
+    <h5 class="ev-card__title">{{ event.title }}</h5>
+    <div class="ev-card__meta">
+      <span class="bi bi-calendar"></span>
+      <span>{{ event.date | date:'dd/MM/yyyy HH:mm' }}</span>
+    </div>
+    <div class="ev-card__meta">
+      <span class="bi bi-geo-alt"></span>
+      <span>{{ event.location }}</span>
+    </div>
+  </div>
+  <div class="ev-card__footer" *ngIf="isOwner">
+    <span class="pill">Organizas este evento</span>
+  </div>
+  <div class="ev-card__footer" *ngIf="!isOwner">
+    <span class="pill">Estás invitado</span>
+  </div>
+</div>
