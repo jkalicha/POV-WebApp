@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Event } from '../../models/event.model';
 
@@ -12,4 +12,11 @@ import { Event } from '../../models/event.model';
 export class EventCard {
   @Input() event!: Event;
   @Input() isOwner: boolean = false; // para mostrar diferentes acciones según si es dueño o invitado
+  @Output() invite = new EventEmitter<string>();
+
+  onInviteClick() {
+    if (this.event?.id) {
+      this.invite.emit(this.event.id);
+    }
+  }
 }

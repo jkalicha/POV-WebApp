@@ -1,0 +1,72 @@
+.invite-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.muted { opacity: 0.8; }
+
+.chip-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: start;
+  margin: 16px 0 6px;
+}
+
+.chip-input input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.chips {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+.chip__remove {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0 2px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.btn.btn-gradient {
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: #0b1220;
+  border: none;
+}
+
+.toast-ok {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.18);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}

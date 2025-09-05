@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event.model';
 import { EventCard } from '../../components/event-card/event-card';
@@ -20,7 +20,7 @@ export class Home implements OnInit {
   invitedEvents: Event[] = [];
   ownedEvents: Event[] = [];
 
-  constructor(private eventService: EventService, private authService: AuthService) {}
+  constructor(private eventService: EventService, private authService: AuthService, private router: Router) {}
 
   loadEvents() {
     this.eventService.getUserEvents().then((events) => {
@@ -60,5 +60,11 @@ export class Home implements OnInit {
   // ---- Combined events for CalendarCard ----
   get allEvents(): Event[] {
     return [...this.invitedEvents, ...this.ownedEvents];
+  }
+
+  onInvite(eventId: string) {
+  const ev = this.ownedEvents.find(e => e.id === eventId);
+  const title = ev?.title ?? '';
+  this.router.navigate(['/event', eventId, 'invite'], { queryParams: { title } });
   }
 }

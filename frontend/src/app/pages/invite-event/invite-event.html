@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <div class="invite-card">
+  <h2 class="mb-2"><span class="bi bi-person-plus"></span> Invitar al evento</h2>
+  <p class="muted">Evento: <strong>{{ eventTitle || ('#' + eventId) }}</strong></p>
+
+    <div class="chip-input">
+      <div class="chips">
+        <span class="chip" *ngFor="let mail of invitedEmails; let i = index">
+          <span class="bi bi-envelope me-1"></span>{{ mail }}
+          <button type="button" class="chip__remove" (click)="removeEmail(i)" aria-label="Quitar">
+            <span class="bi bi-x"></span>
+          </button>
+        </span>
+      </div>
+      <input
+        type="text"
+        placeholder="Agregar emails (Enter o coma para confirmar)"
+        [(ngModel)]="emailInput"
+        (keydown)="onEmailKeydown($event)"
+      />
+      <button class="btn btn-light" (click)="addEmail()"><span class="bi bi-plus"></span> Agregar</button>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-outline-light" [routerLink]="['/']"><span class="bi bi-arrow-left"></span> Volver</a>
+      <button class="btn btn-gradient" [disabled]="invitedEmails.length === 0" (click)="saveInvites()">
+        <span class="bi bi-send"></span> Guardar invitaciones
+      </button>
+    </div>
+
+    <div class="toast-ok" *ngIf="message">{{ message }}</div>
+  </div>
+</div>

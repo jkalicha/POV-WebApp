@@ -1,20 +1,33 @@
 <div class="stats fade-in">
-  <div class="stat-card">
-    <h3>Invitado</h3>
-    <p>{{ invitedCount }}</p>
+  <div class="stat-card stat-invited">
+    <div class="stat-top">
+      <span class="bi bi-person-check"></span>
+      <h3>Invitado</h3>
+    </div>
+    <p class="stat-value">{{ invitedCount }}</p>
   </div>
-  <div class="stat-card">
-    <h3>Propios</h3>
-    <p>{{ ownedCount }}</p>
+
+  <div class="stat-card stat-owned">
+    <div class="stat-top">
+      <span class="bi bi-star"></span>
+      <h3>Propios</h3>
+    </div>
+    <p class="stat-value">{{ ownedCount }}</p>
   </div>
-  <div class="stat-card">
-    <h3>Total del mes</h3>
-    <p>{{ monthlyTotal }}</p>
+
+  <div class="stat-card stat-total">
+    <div class="stat-top">
+      <span class="bi bi-bar-chart"></span>
+      <h3>Total del mes</h3>
+    </div>
+    <p class="stat-value">{{ monthlyTotal }}</p>
   </div>
-  <div class="stat-card">
-    <h3>Próximo evento</h3>
-    <p class="pill">
-      <span class="bi bi-clock"></span> {{ nextEventLabel }}
-    </p>
+
+  <div class="stat-card stat-next">
+    <div class="stat-top">
+      <span class="bi bi-clock-history"></span>
+      <h3>Próximo evento</h3>
+    </div>
+    <p class="pill"><span class="bi bi-clock"></span> {{ nextEventLabel }}</p>
   </div>
 </div>

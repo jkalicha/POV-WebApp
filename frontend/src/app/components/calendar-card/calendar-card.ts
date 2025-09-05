@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Event } from '../../models/event.model';
 
@@ -9,7 +9,7 @@ import { Event } from '../../models/event.model';
   templateUrl: './calendar-card.html',
   styleUrls: ['./calendar-card.scss']
 })
-export class CalendarCard implements OnChanges {
+export class CalendarCard implements OnChanges, OnInit {
   @Input() events: Event[] = [];
 
   currentYear = new Date().getFullYear();
@@ -20,6 +20,10 @@ export class CalendarCard implements OnChanges {
     if (changes['events']) {
       this.buildCalendar();
     }
+  }
+
+  ngOnInit(): void {
+    this.buildCalendar();
   }
 
   get monthDate(): Date { return new Date(this.currentYear, this.currentMonth, 1); }
@@ -52,7 +56,34 @@ export class CalendarCard implements OnChanges {
     for (let i = 0; i < startOffset; i++) cells.push(null);
     for (let d = 1; d <= daysInMonth; d++) cells.push(d);
     while (cells.length % 7 !== 0) cells.push(null);
-    while (cells.length < 42) cells.push(null);
-    this.calendarCells = cells;
+    // Cap to 5 weeks (35 cells) as requested
+    if (cells.length > 35) {
+      this.calendarCells = cells.slice(0, 35);
+    } else if (cells.length < 35) {
+      while (cells.length < 35) cells.push(null);
+      this.calendarCells = cells;
+    } else {
+      this.calendarCells = cells;
+    }
+  }
+
+  nextMonth() {
+    if (this.currentMonth === 11) {
+      this.currentMonth = 0;
+      this.currentYear += 1;
+    } else {
+      this.currentMonth += 1;
+    }
+    this.buildCalendar();
+  }
+
+  prevMonth() {
+    if (this.currentMonth === 0) {
+      this.currentMonth = 11;
+      this.currentYear -= 1;
+    } else {
+      this.currentMonth -= 1;
+    }
+    this.buildCalendar();
   }
 }
