@@ -4,6 +4,10 @@
       <span class="bi bi-calendar3"></span>
       Calendario
     </div>
+    <div class="ev-cal__nav">
+      <button class="ev-cal__btn" (click)="prevMonth()" title="Mes anterior"><span class="bi bi-chevron-left"></span></button>
+      <button class="ev-cal__btn" (click)="nextMonth()" title="Mes siguiente"><span class="bi bi-chevron-right"></span></button>
+    </div>
   </div>
   <div class="ev-cal__body">
     <div class="ev-cal__month">{{ monthDate | date:'MMMM yyyy' }}</div>
