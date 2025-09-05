@@ -14,10 +14,19 @@ html, body { height: 100%; }
 body {
 	margin: 0;
 	font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-	background: radial-gradient(1200px 800px at 10% -10%, rgba(14,165,234,0.15) 0%, transparent 60%),
-							radial-gradient(1000px 700px at 110% -20%, rgba(79,70,229,0.15) 0%, transparent 60%),
-							var(--bg);
+	background:
+		radial-gradient(1200px 800px at 10% -10%, rgba(14,165,234,0.12) 0%, transparent 60%),
+		radial-gradient(1000px 700px at 110% -20%, rgba(79,70,229,0.12) 0%, transparent 60%),
+		linear-gradient(120deg, #0b1220, #0f172a 40%, #0b1220);
 	color: var(--text);
+	background-size: 160% 160%, 160% 160%, 100% 100%;
+	animation: bgMove 18s ease-in-out infinite;
+}
+
+@keyframes bgMove {
+	0% { background-position: 0% 0%, 100% 0%, 0% 0%; }
+	50% { background-position: 20% 10%, 80% 5%, 0% 0%; }
+	100% { background-position: 0% 0%, 100% 0%, 0% 0%; }
 }
 
 .container {
@@ -66,12 +75,23 @@ section { margin-bottom: 22px; }
 	padding: 14px 16px;
 	box-shadow: 0 6px 18px rgba(0,0,0,0.22);
 	transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s ease, filter 0.2s ease;
+		position: relative;
 }
 .ev-card:hover {
 	transform: translateY(-3px) scale(1.01);
 	border-color: rgba(99,102,241,0.5);
 	box-shadow: 0 14px 34px rgba(79,70,229,0.28);
 }
+.ev-card::before {
+	content: '';
+	position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+	background: linear-gradient(135deg, rgba(14,165,234,0.25), rgba(79,70,229,0.25));
+		-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+		mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor; mask-composite: exclude;
+	opacity: 0; transition: opacity .2s ease;
+}
+.ev-card:hover::before { opacity: 1; }
 .ev-card__title { margin: 0 0 8px; font-weight: 700; }
 .ev-card__meta {
 	display: flex;
@@ -117,6 +137,25 @@ section { margin-bottom: 22px; }
 
 /* Bootstrap icons helper (if BI present) */
 .bi { display: inline-block; }
+
+/* Subtle decorative SVGs in background */
+body::before, body::after {
+	content: '';
+	position: fixed; z-index: 0; pointer-events: none; opacity: 0.06;
+	filter: blur(1px);
+}
+body::before {
+	inset: auto auto 10% -40px; width: 200px; height: 200px;
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="%23c7d2fe"><path d="M6 2h12v2H6zM5 6h14v2H5zM4 10h16v10H4z"/></svg>') no-repeat center/contain;
+	animation: floatA 14s ease-in-out infinite;
+}
+body::after {
+	inset: 5% -40px auto auto; width: 160px; height: 160px;
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 24 24" fill="%237dd3fc"><path d="M12 17.27L18.18 21 16.54 13.97 22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21z"/></svg>') no-repeat center/contain;
+	animation: floatB 18s ease-in-out infinite;
+}
+@keyframes floatA { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg);} 100% { transform: translateY(0px) rotate(0deg);} }
+@keyframes floatB { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(8px) rotate(-4deg);} 100% { transform: translateY(0px) rotate(0deg);} }
 
 /* Footer */
 .app-footer { position: fixed; right: 14px; bottom: 14px; z-index: 50; }

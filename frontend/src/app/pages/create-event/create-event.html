@@ -1,27 +1,39 @@
-<div class="container mt-4" style="max-width:720px;">
-  <h1 class="mb-3">Crear evento</h1>
+<div class="container ce-wrapper">
+  <div class="ce-card">
+    <h1 class="ce-title"><span class="bi bi-calendar-plus"></span> Crear evento</h1>
 
-  <form (ngSubmit)="submit()" #f="ngForm" novalidate>
-    <div class="mb-3">
-      <label class="form-label">Título</label>
-      <input class="form-control" name="title" [(ngModel)]="title" required minlength="2" maxlength="100" />
-    </div>
+    <form (ngSubmit)="submit()" #f="ngForm" novalidate>
+      <div class="form-floating mb-3 position-relative">
+        <input class="form-control" id="ce-title" placeholder="Título" name="title" [(ngModel)]="title" (ngModelChange)="onTitleInput($event)" required minlength="2" maxlength="100" />
+        <label for="ce-title">Título</label>
+        <span *ngIf="emojiHint" class="position-absolute" style="right:12px; top:12px; font-size:18px;">{{ emojiHint }}</span>
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label">Fecha</label>
-      <input type="datetime-local" class="form-control" name="date" [(ngModel)]="date" required />
-    </div>
+      <div class="input-icon mb-3">
+        <i class="bi bi-calendar-event"></i>
+        <input type="datetime-local" class="form-control" name="date" [(ngModel)]="date" required />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label">Lugar</label>
-      <input class="form-control" name="location" [(ngModel)]="location" required minlength="2" maxlength="100" />
-    </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" id="ce-location" placeholder="Lugar" name="location" [(ngModel)]="location" required minlength="2" maxlength="100" />
+        <label for="ce-location">Lugar</label>
+      </div>
 
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
-    <div class="d-flex gap-2">
-      <button class="btn btn-light" type="submit">Crear</button>
-      <a routerLink="/" class="btn btn-outline-light">Cancelar</a>
-    </div>
-  </form>
+      <div class="ce-actions">
+        <button class="btn btn-gradient" type="submit" [disabled]="loading">
+          <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true" *ngIf="loading"></span>
+          <span class="bi" [ngClass]="loading ? 'bi-hourglass-split' : 'bi-check-circle'"></span>
+          &nbsp;{{ loading ? 'Creando…' : 'Crear' }}
+        </button>
+        <a routerLink="/" class="btn btn-outline-light"><span class="bi bi-x-circle"></span>&nbsp;Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="ok" class="toast-ok"><span class="bi bi-check-circle"></span> Evento creado correctamente</div>
+<div *ngIf="ok" class="confetti">
+  <i *ngFor="let c of confettiPieces" [ngStyle]="{ left: c.left, top: '0px', background: c.background }"></i>
 </div>
