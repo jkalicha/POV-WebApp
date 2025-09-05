@@ -16,7 +16,8 @@
            [class.ev-cal__cell--empty]="day === null"
            [class.ev-cal__cell--has]="day && hasEventOn(day)"
            [class.ev-cal__cell--today]="day && isToday(day)">
-        <span>{{ day || '' }}</span>
+        <span class="ev-cal__daynum">{{ day || '' }}</span>
+        <span *ngIf="day && hasEventOn(day)" class="ev-cal__dot"></span>
       </div>
     </div>
   </div>

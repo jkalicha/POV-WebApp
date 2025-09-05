@@ -10,8 +10,11 @@
       <span>{{ event.location }}</span>
     </div>
   </div>
-  <div class="ev-card__footer" *ngIf="isOwner">
+  <div class="ev-card__footer" *ngIf="isOwner" style="display:flex; justify-content: space-between; align-items:center; gap:8px;">
     <span class="pill">Organizas este evento</span>
+    <button class="btn btn-sm btn-light" (click)="onInviteClick()">
+      <span class="bi bi-person-plus"></span> Invitar
+    </button>
   </div>
   <div class="ev-card__footer" *ngIf="!isOwner">
     <span class="pill">Estás invitado</span>

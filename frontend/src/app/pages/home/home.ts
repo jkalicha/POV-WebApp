@@ -61,4 +61,10 @@ export class Home implements OnInit {
   get allEvents(): Event[] {
     return [...this.invitedEvents, ...this.ownedEvents];
   }
+
+  onInvite(eventId: string) {
+    // Placeholder: aquí luego abriremos un modal/página para invitar usuarios al evento
+    console.log('Invitar a evento:', eventId);
+    // TODO: navegar a /event/:id/invite o abrir modal
+  }
 }
