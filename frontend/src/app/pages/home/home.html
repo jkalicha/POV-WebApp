@@ -1,14 +1,61 @@
 <div *ngIf="!isLoggedIn">
   <div class="container mt-5">
-    <div class="hero text-center">
-      <h1 class="mb-2">POV WebApp</h1>
-      <p class="lead mb-3">Organiza, invita y mide el desempeño de tus eventos.</p>
-      <div class="d-flex justify-content-center gap-2">
-        <a routerLink="/login" class="btn btn-light btn-lg">Iniciar sesión</a>
-        <a routerLink="/register" class="btn btn-outline-light btn-lg">Registrate</a>
+    <section class="landing-hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1>POV WebApp</h1>
+          <p class="subtitle">La forma moderna de crear eventos, invitar participantes y revivir de la mejor manera esos momentos únicos.</p>
+          <div class="cta">
+            <a routerLink="/login" class="btn btn-gradient btn-lg"><span class="bi bi-door-open"></span> Iniciar sesión</a>
+            <a routerLink="/register" class="btn btn-outline-light btn-lg"><span class="bi bi-person-plus"></span> Registrate</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="calendar-art">
+            <div class="cal-header">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="cal-grid">
+              <span class="cell today"></span>
+              <span class="cell event"></span>
+              <span class="cell"></span>
+              <span class="cell"></span>
+              <span class="cell event"></span>
+              <span class="cell"></span>
+              <span class="cell"></span>
+            </div>
+          </div>
+          <div class="bubbles">
+            <i></i><i></i><i></i>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="about fade-in">
+      <h2 class="about-title">Acerca</h2>
+      <div class="about-grid">
+        <article class="about-card">
+          <div class="icon"><span class="bi bi-calendar-event"></span></div>
+          <h3>Crear y organiza eventos fácilmente</h3>
+          <p>Define fecha, lugar y detalles en segundos. Invita a tus amigos con un solo clic y mantén todo bajo control en una interfaz moderna y simple.</p>
+        </article>
+        <article class="about-card">
+          <div class="icon"><span class="bi bi-person-check"></span></div>
+          <h3>Participa y comparte tu experiencia</h3>
+          <p>Confirma tu asistencia, recibe recordatorios y captura los mejores momentos del evento para revivirlos después junto a los demás.</p>
+        </article>
+        <article class="about-card">
+          <div class="icon"><span class="bi bi-bar-chart"></span></div>
+          <h3>Revive tu POV</h3>
+          <p>Accede a todos los puntos de vista de cada evento al que asististe y guarda los recuerdos más importantes de manera organizada y segura.</p>
+        </article>
+      </div>
+    </section>
   </div>
+  <div class="spacer" style="height: 16px;"></div>
 </div>
 
 <div *ngIf="isLoggedIn">

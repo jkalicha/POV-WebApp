@@ -54,6 +54,14 @@ section { margin-bottom: 22px; }
 	font-weight: 600;
 	text-decoration: none;
 }
+.btn-lg { padding: 12px 18px; font-size: 1.05rem; }
+.btn-gradient {
+	background: linear-gradient(135deg, #22d3ee, #6366f1);
+	color: #0b1220;
+	border: none;
+	box-shadow: 0 10px 24px rgba(79,70,229,0.25);
+}
+.btn-gradient:hover { filter: brightness(1.02); box-shadow: 0 14px 34px rgba(79,70,229,0.32); transform: translateY(-1px); }
 .btn-light {
 	background: #fff;
 	color: #0f172a;
