@@ -10,6 +10,7 @@ Está desarrollada como proyecto fullstack utilizando tecnologías modernas y bu
 - **Base de datos**: PostgreSQL  
 - **ORM**: TypeORM  
 - **Autenticación**: JWT  
+- **Almacenamiento**: AWS S3 (para fotos de eventos)
 - **Testing**: Jest  
 - **Control de versiones**: GitFlow
 
@@ -98,6 +99,56 @@ Content-Type: application/json
 - `401`: Token requerido, inválido o expirado
 - `403`: Forbidden (el usuario autenticado no es el owner del evento)
 - `500`: Internal server error
+
+### **POST /event/:id/photos** - Subir foto al evento (Requiere autenticación)
+POST http://localhost:3000/event/<EVENT_ID>/photos
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: multipart/form-data
+
+Form data:
+- photo: archivo de imagen (máx 5MB)
+- caption: descripción opcional
+
+**Responses:**
+- `201`: Foto subida exitosamente
+- `400`: No se proporcionó archivo, formato inválido, o límite de 5 fotos alcanzado
+- `401`: Token requerido, inválido o expirado
+- `500`: Internal server error
+
+### **GET /event/:id/photos** - Ver fotos del evento (Requiere autenticación)
+GET http://localhost:3000/event/<EVENT_ID>/photos
+Authorization: Bearer <JWT_TOKEN>
+
+**Responses:**
+- `200`: Array de fotos con URLs de S3, metadatos y usuario que subió cada foto
+- `401`: Token requerido, inválido o expirado
+- `500`: Internal server error
+
+### **DELETE /photo/:id** - Eliminar foto propia (Requiere autenticación)
+DELETE http://localhost:3000/photo/<PHOTO_ID>
+Authorization: Bearer <JWT_TOKEN>
+
+**Responses:**
+- `200`: Foto eliminada exitosamente
+- `400`: UUID inválido
+- `401`: Token requerido, inválido o expirado
+- `403`: No tienes permisos para eliminar esta foto
+- `404`: Foto no encontrada
+- `500`: Internal server error
+
+## 🚀 Configuración e Instalación
+
+### Prerrequisitos
+- Node.js 16+
+- PostgreSQL
+- Cuenta AWS con S3 configurado
+
+### Variables de entorno
+1. Copia el archivo de ejemplo: `cp backend/.env.example backend/.env`
+2. Configura las variables en `backend/.env`:
+   - **JWT**: Clave secreta para tokens
+   - **Database**: Credenciales de PostgreSQL
+   - **AWS S3**: Access keys y nombre del bucket para almacenar fotos
 
 **🚧 En Desarrollo actualmente**
 

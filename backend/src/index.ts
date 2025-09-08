@@ -13,6 +13,12 @@ import { IEventRepository } from "./EventInterfaces/IEventRepository";
 import { EventController } from "./Event/EventController";
 import { EventRepository } from "./Event/EventRepository";
 import { EventInvitationRepository } from "./EventInvitation/EventInvitationRepository";
+import { EventPhotoController } from "./EventPhoto/EventPhotoController";
+import { EventPhotoService } from "./EventPhoto/EventPhotoService";
+import { EventPhotoRepository } from "./EventPhoto/EventPhotoRepository";
+import { IEventPhotoService } from "./EventPhotoInterfaces/IEventPhotoService";
+import { IEventPhotoRepository } from "./EventPhotoInterfaces/IEventPhotoRepository";
+import { upload } from "./Shared/uploadMiddleware";
 import {
   authenticateToken,
   AuthenticatedRequest,
@@ -43,6 +49,10 @@ const eventService: IEventService = new EventService(
   userRepository
 );
 const eventController = new EventController(eventService);
+
+const eventPhotoRepository: IEventPhotoRepository = new EventPhotoRepository();
+const eventPhotoService: IEventPhotoService = new EventPhotoService(eventPhotoRepository);
+const eventPhotoController = new EventPhotoController(eventPhotoService);
 
 const handleError = (error: any, res: Response) => {
 
@@ -154,6 +164,69 @@ app.post(
         inviteeEmails
       );
       res.status(200).json({ message: "Invitations processed", ...result });
+    } catch (error: any) {
+      handleError(error, res);
+    }
+  }
+);
+
+// 📸 PHOTO ENDPOINTS
+// POST /event/:id/photos - Subir foto al evento
+app.post(
+  "/event/:id/photos",
+  authenticateToken,
+  upload.single("photo"),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const eventId = req.params.id;
+      const userId = req.user!.userId;
+      const caption = req.body.caption;
+      
+      if (!req.file) {
+        return res.status(400).json({ error: "No se proporcionó archivo" });
+      }
+
+      await eventPhotoController.uploadPhoto(
+        eventId,
+        userId,
+        req.file.buffer,
+        req.file.originalname,
+        caption
+      );
+
+      res.status(201).json({ message: "Foto subida exitosamente" });
+    } catch (error: any) {
+      handleError(error, res);
+    }
+  }
+);
+
+// GET /event/:id/photos - Ver fotos del evento
+app.get(
+  "/event/:id/photos",
+  authenticateToken,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const eventId = req.params.id;
+      const photos = await eventPhotoController.getEventPhotos(eventId);
+      res.status(200).json(photos);
+    } catch (error: any) {
+      handleError(error, res);
+    }
+  }
+);
+
+// DELETE /photo/:id - Eliminar foto propia
+app.delete(
+  "/photo/:id",
+  authenticateToken,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const photoId = req.params.id;
+      const userId = req.user!.userId;
+      
+      await eventPhotoController.deletePhoto(photoId, userId);
+      res.status(200).json({ message: "Foto eliminada exitosamente" });
     } catch (error: any) {
       handleError(error, res);
     }
