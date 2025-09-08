@@ -78,13 +78,13 @@
           <section>
             <h2 class="section-title"><span class="bi bi-star"></span> Tus eventos</h2>
             <div class="grid">
-              <app-event-card *ngFor="let event of ownedEvents" [event]="event" [isOwner]="true" (invite)="onInvite($event)"></app-event-card>
+              <app-event-card *ngFor="let event of ownedEvents" [event]="event" [isOwner]="true" (invite)="onInvite($event)" (photos)="onPhotos($event)"></app-event-card>
             </div>
           </section>
           <section>
             <h2 class="section-title"><span class="bi bi-person-check"></span> Invitaciones</h2>
             <div class="grid">
-              <app-event-card *ngFor="let event of invitedEvents" [event]="event" [isOwner]="false"></app-event-card>
+              <app-event-card *ngFor="let event of invitedEvents" [event]="event" [isOwner]="false" (photos)="onPhotos($event)"></app-event-card>
             </div>
           </section>
         </div>

@@ -1,17 +1,23 @@
 import { IEventPhotoRepository } from "../EventPhotoInterfaces/IEventPhotoRepository";
 import { IEventPhotoService } from "../EventPhotoInterfaces/IEventPhotoService";
 import { S3Service } from "./S3Service";
+import { MockS3Service } from "./MockS3Service";
 import { z } from "zod";
 
 const PHOTO_LIMIT = 5; // Límite de 5 fotos por usuario por evento
 
 export class EventPhotoService implements IEventPhotoService {
   private eventPhotoRepository: IEventPhotoRepository;
-  private s3Service: S3Service;
+  private s3Service: S3Service | MockS3Service;
 
-  constructor(eventPhotoRepository: IEventPhotoRepository, s3Service?: S3Service) {
+  constructor(eventPhotoRepository: IEventPhotoRepository, s3Service?: S3Service | MockS3Service) {
     this.eventPhotoRepository = eventPhotoRepository;
-    this.s3Service = s3Service || new S3Service();
+    // Usar mock en desarrollo, S3 real en producción
+    if (process.env.NODE_ENV === 'development') {
+      this.s3Service = s3Service || new MockS3Service();
+    } else {
+      this.s3Service = s3Service || new S3Service();
+    }
   }
 
   public async uploadPhoto(
