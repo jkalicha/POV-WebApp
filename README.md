@@ -150,6 +150,88 @@ Authorization: Bearer <JWT_TOKEN>
    - **Database**: Credenciales de PostgreSQL
    - **AWS S3**: Access keys y nombre del bucket para almacenar fotos
 
-**🚧 En Desarrollo actualmente**
+## 📸 Sistema de Fotos - Desarrollo Local vs Producción
 
-Este proyecto es parte de mi aprendizaje como desarrollador. Estoy trabajando para aplicar lo que estudio sobre backend, arquitectura, testing y buenas prácticas de desarrollo moderno.
+### Desarrollo Local (Mock S3)
+
+Para facilitar el desarrollo, el sistema incluye un **MockS3Service** que simula AWS S3 localmente:
+
+#### ¿Cómo funciona?
+- **Almacenamiento**: Las fotos se guardan en `backend/uploads/` (sistema de archivos local)
+- **URLs**: Se generan como `http://localhost:3000/uploads/filename.jpg`
+- **Activación**: Automática cuando `NODE_ENV=development`
+
+#### Ventajas del Mock:
+-  **Más rápido**: Sin latencia de red
+-  **Gratis**: No requiere cuenta AWS
+-  **Simple**: No necesitas configurar credenciales AWS
+-  **Visible**: Puedes ver los archivos guardados localmente
+
+#### Para usar el Mock:
+1. Asegúrate que `NODE_ENV=development` en tu `.env`
+2. **No necesitas configurar** las variables AWS:
+   ```env
+   # Estas NO son necesarias en desarrollo:
+   # AWS_ACCESS_KEY_ID=
+   # AWS_SECRET_ACCESS_KEY=
+   # AWS_REGION=
+   # AWS_S3_BUCKET_NAME=
+   ```
+3. El sistema automáticamente usará el MockS3Service
+4. Las fotos se guardarán en `backend/uploads/`
+
+### Producción (AWS S3 Real)
+
+En producción (`NODE_ENV=production`), el sistema usa AWS S3 real:
+
+#### Configuración requerida:
+```env
+NODE_ENV=production
+AWS_ACCESS_KEY_ID=tu_access_key
+AWS_SECRET_ACCESS_KEY=tu_secret_key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET_NAME=tu-bucket-name
+```
+
+#### ¿Cómo cambiar entre Mock y S3 real?
+El cambio es **automático** basado en `NODE_ENV`:
+```typescript
+// En EventPhotoService.ts
+if (process.env.NODE_ENV === 'development') {
+  this.s3Service = new MockS3Service(); // Mock local
+} else {
+  this.s3Service = new S3Service(); // AWS S3 real
+}
+```
+
+#### Estructura de archivos:
+```
+backend/
+├── src/
+│   └── EventPhoto/
+│       ├── S3Service.ts        # AWS S3 real
+│       ├── MockS3Service.ts    # Mock para desarrollo
+│       └── EventPhotoService.ts # Lógica que elige cuál usar
+└── uploads/                    # Fotos en desarrollo (creado automáticamente)
+```
+
+### Recomendación:
+- **Desarrollo**: Usa el Mock (configuración por defecto)
+- **Producción**: Configura AWS S3 real
+
+El sistema funciona idénticamente en ambos casos.
+
+---
+
+## 🎯 MVP - Proyecto de Aprendizaje
+
+Este proyecto representa mi **MVP (Minimum Viable Product)** desarrollado como parte de mi crecimiento profesional como desarrollador. A través de esta aplicación he aplicado y consolidado conocimientos sobre:
+
+- **Arquitectura de software**: Clean Architecture, principios SOLID
+- **Backend moderno**: Node.js, TypeScript, Express, PostgreSQL
+- **Frontend**: Angular con componentes standalone
+- **Testing**: Jest con mocks y buenas prácticas de testing
+- **DevOps básico**: Variables de entorno, configuración por ambientes
+- **Buenas prácticas**: GitFlow, documentación, separación de responsabilidades
+
+El proyecto refleja mi evolución técnica y mi enfoque en escribir código limpio, mantenible y bien documentado. Cada feature implementada ha sido una oportunidad para profundizar en las mejores prácticas de desarrollo fullstack moderno.

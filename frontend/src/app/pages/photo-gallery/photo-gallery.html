@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <div class="pg-wrapper">
+    <div class="pg-card">
+      <div class="pg-header">
+        <h2 class="pg-title">
+          <span class="bi bi-images"></span>
+          Fotos de {{ eventTitle }}
+        </h2>
+        <div class="pg-actions">
+          <button class="btn btn-gradient" (click)="goToUpload()">
+            <span class="bi bi-plus-circle"></span> Subir foto
+          </button>
+          <button class="btn btn-outline-light" (click)="goBack()">
+            <span class="bi bi-arrow-left"></span> Volver
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando fotos...</p>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <div *ngIf="!loading && photos.length === 0" class="empty-state">
+        <span class="bi bi-camera"></span>
+        <h3>No hay fotos aún</h3>
+        <p>Sé el primero en compartir un momento de este evento</p>
+      </div>
+
+      <div *ngIf="!loading && photos.length > 0" class="photo-grid">
+        <div *ngFor="let photo of photos" class="photo-item">
+          <img [src]="photo.imageUrl" [alt]="photo.caption || 'Foto del evento'" class="photo-image">
+          <div class="photo-overlay">
+            <div class="photo-info">
+              <p *ngIf="photo.caption" class="photo-caption">{{ photo.caption }}</p>
+              <small class="photo-date">{{ photo.createdAt | date:'dd/MM/yyyy HH:mm' }}</small>
+            </div>
+            <div class="photo-actions" *ngIf="canDeletePhoto(photo)">
+              <button class="btn-delete" (click)="deletePhoto(photo.id)" title="Eliminar foto">
+                <span class="bi bi-trash"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

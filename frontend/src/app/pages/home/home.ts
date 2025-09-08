@@ -63,8 +63,15 @@ export class Home implements OnInit {
   }
 
   onInvite(eventId: string) {
-  const ev = this.ownedEvents.find(e => e.id === eventId);
-  const title = ev?.title ?? '';
-  this.router.navigate(['/event', eventId, 'invite'], { queryParams: { title } });
+    const ev = this.ownedEvents.find(e => e.id === eventId);
+    const title = ev?.title ?? '';
+    this.router.navigate(['/event', eventId, 'invite'], { queryParams: { title } });
+  }
+
+  onPhotos(eventId: string) {
+    const allEvents = [...this.ownedEvents, ...this.invitedEvents];
+    const ev = allEvents.find(e => e.id === eventId);
+    const title = ev?.title ?? '';
+    this.router.navigate(['/event', eventId, 'photos'], { queryParams: { title } });
   }
 }

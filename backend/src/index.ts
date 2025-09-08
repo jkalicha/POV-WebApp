@@ -23,6 +23,7 @@ import {
   authenticateToken,
   AuthenticatedRequest,
 } from "./Shared/authMiddleware";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,11 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Servir archivos estáticos de uploads en desarrollo
+if (process.env.NODE_ENV === 'development') {
+  app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+}
 
 const userRepository: IUserRepository = new UserRepository();
 const userService: IUserService = new UserService(userRepository);
