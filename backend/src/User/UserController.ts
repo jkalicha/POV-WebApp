@@ -1,4 +1,4 @@
-import { IUserService } from "../Shared/IUserService";
+import { IUserService } from "../UserInterfaces/IUserService";
 
 export class UserController {
     private userService: IUserService;
@@ -9,5 +9,9 @@ export class UserController {
 
     public async createUser(name: string, email: string, password: string): Promise<void> {
         await this.userService.createUser(name, email, password);
+    }
+
+    public async loginUser(email: string, password: string): Promise<string> {
+        return await this.userService.loginUser(email, password);
     }
 }

@@ -1,0 +1,26 @@
+.ev-calendar {
+  background: #0b1220;
+  border: 1px solid rgba(226,232,240,0.08);
+  border-radius: 12px;
+  padding: 12px;
+}
+.ev-cal__header { font-weight: 700; display:flex; align-items:center; gap:8px; margin-bottom:6px; justify-content: space-between; }
+.ev-cal__header .title { display:flex; align-items:center; gap:8px; }
+.ev-cal__nav { display:flex; gap:6px; }
+.ev-cal__btn { background: rgba(148,163,184,0.12); border: 1px solid rgba(148,163,184,0.18); color:#e2e8f0; border-radius:8px; width:28px; height:28px; display:grid; place-items:center; cursor:pointer; }
+.ev-cal__btn:hover { background: rgba(148,163,184,0.18); }
+.ev-cal__month { color:#93c5fd; font-weight:700; margin-bottom:6px; text-transform: capitalize; }
+.ev-cal__days { display:grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom:6px; color:#94a3b8; font-size:12px; }
+.ev-cal__dow { text-align:center; }
+.ev-cal__grid { display:grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.ev-cal__cell { height: 36px; border:1px dashed rgba(148,163,184,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:12px; position: relative; transition: background .15s ease, border-color .15s ease; }
+.ev-cal__daynum { position: relative; z-index: 1; }
+.ev-cal__dot { position: absolute; bottom: 5px; width: 6px; height: 6px; border-radius: 999px; background: #93c5fd; box-shadow: 0 0 0 2px rgba(147,197,253,0.15); }
+.ev-cal__cell--has .ev-cal__dot { animation: pulseDot 1.8s ease-in-out infinite; }
+@keyframes pulseDot { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .85; } }
+
+.ev-cal__grid .ev-cal__cell { animation: fadeInCell .35s ease both; }
+@keyframes fadeInCell { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: none; } }
+.ev-cal__cell--empty { background: rgba(148,163,184,0.05); }
+.ev-cal__cell--has { border-color: rgba(99,102,241,0.6); color:#c7d2fe; background: rgba(99,102,241,0.1); }
+.ev-cal__cell--today { outline: 2px solid #22d3ee; outline-offset: -3px; box-shadow: 0 0 12px rgba(34,211,238,0.25) inset; }

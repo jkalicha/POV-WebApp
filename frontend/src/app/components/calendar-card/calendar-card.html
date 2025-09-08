@@ -1,0 +1,28 @@
+<aside class="ev-calendar">
+  <div class="ev-cal__header">
+    <div class="title">
+      <span class="bi bi-calendar3"></span>
+      Calendario
+    </div>
+    <div class="ev-cal__nav">
+      <button class="ev-cal__btn" (click)="prevMonth()" title="Mes anterior"><span class="bi bi-chevron-left"></span></button>
+      <button class="ev-cal__btn" (click)="nextMonth()" title="Mes siguiente"><span class="bi bi-chevron-right"></span></button>
+    </div>
+  </div>
+  <div class="ev-cal__body">
+    <div class="ev-cal__month">{{ monthDate | date:'MMMM yyyy' }}</div>
+    <div class="ev-cal__days">
+      <div *ngFor="let d of [1,2,3,4,5,6,7]; let i = index" class="ev-cal__dow">{{ ['L','M','X','J','V','S','D'][i] }}</div>
+    </div>
+    <div class="ev-cal__grid">
+      <div *ngFor="let day of calendarCells"
+           class="ev-cal__cell"
+           [class.ev-cal__cell--empty]="day === null"
+           [class.ev-cal__cell--has]="day && hasEventOn(day)"
+           [class.ev-cal__cell--today]="day && isToday(day)">
+        <span class="ev-cal__daynum">{{ day || '' }}</span>
+        <span *ngIf="day && hasEventOn(day)" class="ev-cal__dot"></span>
+      </div>
+    </div>
+  </div>
+</aside>

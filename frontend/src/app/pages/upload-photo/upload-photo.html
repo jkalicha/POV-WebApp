@@ -1,0 +1,103 @@
+<div class="upload-photo-page">
+  <!-- Header -->
+  <div class="header-section">
+    <div class="header-content">
+      <button class="btn btn-outline-light btn-sm back-btn" (click)="goBack()">
+        <i class="fas fa-arrow-left me-2"></i>Volver
+      </button>
+      <h1 class="page-title">Subir Foto</h1>
+      <p class="event-title">{{ eventTitle }}</p>
+    </div>
+  </div>
+
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        
+        <!-- Mensajes -->
+        <div *ngIf="error" class="alert alert-danger mb-4">
+          <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+        </div>
+
+        <div *ngIf="success" class="alert alert-success mb-4">
+          <i class="fas fa-check-circle me-2"></i>{{ success }}
+        </div>
+
+        <!-- Upload Form -->
+        <div class="upload-form">
+          
+          <!-- File Upload Area -->
+          <div class="upload-area" [class.has-file]="selectedFile">
+            <div *ngIf="!selectedFile" class="upload-placeholder">
+              <input 
+                type="file" 
+                accept="image/*" 
+                (change)="onFileSelected($event)"
+                id="photo-input"
+                class="file-input">
+              <label for="photo-input" class="upload-label">
+                <i class="fas fa-camera upload-icon"></i>
+                <div class="upload-text">
+                  <div class="upload-title">Seleccionar Imagen</div>
+                  <div class="upload-subtitle">JPG, PNG o GIF (máx. 5MB)</div>
+                </div>
+              </label>
+            </div>
+
+            <div *ngIf="selectedFile && previewUrl" class="preview-container">
+              <img [src]="previewUrl" alt="Preview" class="preview-image">
+              <button 
+                type="button" 
+                class="btn btn-danger btn-sm remove-btn"
+                (click)="removeFile()"
+                [disabled]="uploading">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Caption Input -->
+          <div class="mb-4">
+            <label for="caption" class="form-label">Descripción (opcional)</label>
+            <textarea
+              id="caption"
+              class="form-control"
+              rows="3"
+              placeholder="Escribe una descripción para tu foto..."
+              [(ngModel)]="caption"
+              [disabled]="uploading"
+              maxlength="500">
+            </textarea>
+            <div class="form-text">{{ caption.length }}/500 caracteres</div>
+          </div>
+
+          <!-- Actions -->
+          <div class="action-buttons">
+            <button 
+              type="button" 
+              class="btn btn-outline-primary"
+              (click)="goToGallery()"
+              [disabled]="uploading">
+              <i class="fas fa-images me-2"></i>Ver Galería
+            </button>
+            
+            <button 
+              type="button" 
+              class="btn btn-primary"
+              (click)="uploadPhoto()"
+              [disabled]="!selectedFile || uploading">
+              <span *ngIf="!uploading">
+                <i class="fas fa-upload me-2"></i>Subir Foto
+              </span>
+              <span *ngIf="uploading">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Subiendo...
+              </span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

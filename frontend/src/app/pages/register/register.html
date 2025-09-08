@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4 text-center">Registrarse</h2>
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="name" #nameInput="ngModel" />
+          <div *ngIf="nameInput.invalid && nameInput.touched" class="text-danger">El nombre es obligatorio.</div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required [(ngModel)]="email" #emailInput="ngModel" />
+          <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">El email es obligatorio.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="password" #passwordInput="ngModel" />
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">La contraseña es obligatoria.</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Registrarse</button>
+      </form>
+      <div *ngIf="error" class="text-danger mt-2 text-center">{{ error }}</div>
+      <div class="mt-3 text-center">
+        <button class="btn btn-link" type="button" (click)="goHome()">Volver a home</button>
+      </div>
+    </div>
+  </div>
+</div>
