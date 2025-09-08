@@ -83,6 +83,22 @@ Authorization: Bearer <JWT_TOKEN>
 - `401`: Token requerido, inválido o expirado
 - `500`: Internal server error
 
+### **POST /event/:id/invite** - Invitar usuarios al evento (Requiere autenticación)
+POST http://localhost:3000/event/<EVENT_ID>/invite
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+
+{
+  "invitees": ["ana@example.com", "pepe@example.com"]
+}
+
+**Responses:**
+- `200`: Invitations processed (devuelve `message`, `invited` con IDs de usuarios, y `skipped` con emails y motivo)
+- `400`: Errores de validación (UUID inválido, emails inválidos, etc.)
+- `401`: Token requerido, inválido o expirado
+- `403`: Forbidden (el usuario autenticado no es el owner del evento)
+- `500`: Internal server error
+
 **🚧 En Desarrollo actualmente**
 
 Este proyecto es parte de mi aprendizaje como desarrollador. Estoy trabajando para aplicar lo que estudio sobre backend, arquitectura, testing y buenas prácticas de desarrollo moderno.

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { User } from '../User/User';
 import { Event } from '../Event/Event';
-import { EventInvitation } from "../Event/EventInvitation";
+import { EventInvitation } from "../EventInvitation/EventInvitation";
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
