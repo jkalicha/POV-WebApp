@@ -48,7 +48,6 @@ export class EventService implements IEventService {
 
     // Mapear a objetos planos usando las propiedades públicas
     const mapEvent = (e: any) => {
-      console.log('Evento recibido para mapear:', e);
       return {
         id: e.id,
         title: e.title,
@@ -129,16 +128,16 @@ export class EventService implements IEventService {
     for (const email of uniqueEmails) {
       const user = await this.userRepository.getByEmail(email);
       if (!user) {
-        skipped.push({ email, reason: "User not found" });
+        skipped.push({ email, reason: "Usuario no encontrado" });
         continue;
       }
       if (user.id === ownerId) {
-        skipped.push({ email, reason: "Owner cannot invite themselves" });
+        skipped.push({ email, reason: "El propietario no puede invitarse a sí mismo" });
         continue;
       }
       const alreadyInvited = await this.eventInvitationRepository.exists(eventId, user.id);
       if (alreadyInvited) {
-        skipped.push({ email, reason: "Already invited" });
+        skipped.push({ email, reason: "Ya estaba invitado" });
         continue;
       }
       invited.push(user.id);

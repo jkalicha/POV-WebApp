@@ -232,9 +232,9 @@ describe("EventService", () => {
       expect(result.invited).toEqual(["u1"]);
       expect(result.skipped).toEqual(
         expect.arrayContaining([
-          { email: "nf@test.com", reason: "User not found" },
-          { email: "me@test.com", reason: "Owner cannot invite themselves" },
-          { email: "ok2@test.com", reason: "Already invited" },
+          { email: "nf@test.com", reason: "Usuario no encontrado" },
+          { email: "me@test.com", reason: "El propietario no puede invitarse a sí mismo" },
+          { email: "ok2@test.com", reason: "Ya estaba invitado" },
         ])
       );
     });

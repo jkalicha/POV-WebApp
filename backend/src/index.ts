@@ -45,7 +45,6 @@ const eventService: IEventService = new EventService(
 const eventController = new EventController(eventService);
 
 const handleError = (error: any, res: Response) => {
-  console.error("Error:", error);
 
   if (error.message) {
     if (
@@ -163,12 +162,10 @@ app.post(
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("Database connected");
     app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
+      // Server started
     });
   })
-  .catch((error) => {
-    console.error("Error connecting to the database", error);
+  .catch(() => {
     process.exit(1);
   });
