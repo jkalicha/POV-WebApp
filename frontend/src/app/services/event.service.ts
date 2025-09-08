@@ -29,4 +29,23 @@ export class EventService {
       this.http.post<void>(this.eventUrl, payload, { headers })
     );
   }
+
+  inviteToEvent(
+    eventId: string,
+    invitees: string[]
+  ): Promise<{ message: string; invited: string[]; skipped: { email: string; reason: string }[] }> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const url = `${this.eventUrl}/${eventId}/invite`;
+    return firstValueFrom(
+      this.http.post<{ message: string; invited: string[]; skipped: { email: string; reason: string }[] }>(
+        url,
+        { invitees },
+        { headers }
+      )
+    );
+  }
 }

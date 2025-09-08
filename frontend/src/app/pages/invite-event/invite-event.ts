@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-invite-event',
@@ -17,7 +18,7 @@ export class InviteEventPage implements OnInit {
   invitedEmails: string[] = [];
   message: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.paramMap.get('id') || '';
@@ -48,11 +49,19 @@ export class InviteEventPage implements OnInit {
     this.invitedEmails.splice(i, 1);
   }
 
-  saveInvites(): void {
-    // Backend not ready yet: just show a friendly message and log payload
-    const payload = { eventId: this.eventId, invitees: this.invitedEmails };
-    console.log('Draft invites (to be sent when backend is ready):', payload);
-    this.message = 'Invitaciones preparadas. Se enviarán cuando el backend esté listo.';
+  async saveInvites(): Promise<void> {
+    if (!this.eventId || this.invitedEmails.length === 0) return;
+    try {
+      const res = await this.eventService.inviteToEvent(this.eventId, this.invitedEmails);
+      const skippedMsg = res.skipped?.length
+        ? ` | Omitidas: ${res.skipped.map(s => `${s.email} (${s.reason})`).join(', ')}`
+        : '';
+      this.message = `Invitaciones enviadas (${res.invited.length}).${skippedMsg}`;
+      // Opcional: limpiar lista si todo OK
+      // this.invitedEmails = [];
+    } catch (e: any) {
+      this.message = e?.error?.error || 'No se pudieron enviar las invitaciones';
+    }
   }
 
   private isValidEmail(e: string): boolean {

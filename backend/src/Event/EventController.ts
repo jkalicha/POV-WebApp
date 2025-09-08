@@ -14,4 +14,8 @@ export class EventController {
   async getEventsForUser(userId: string) {
     return this._eventService.getEventsForUser(userId);
   }
+
+  async inviteUsersToEvent(ownerId: string, eventId: string, inviteeEmails: string[]) {
+    return this._eventService.inviteUsersToEvent(ownerId, eventId, inviteeEmails);
+  }
 }

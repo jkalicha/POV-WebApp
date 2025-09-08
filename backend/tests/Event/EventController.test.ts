@@ -10,18 +10,24 @@ describe("EventController", () => {
     mockEventService = {
       createEvent: jest.fn(),
       getEventsForUser: jest.fn(),
+      inviteUsersToEvent: jest.fn(),
     } as jest.Mocked<IEventService>;
     eventController = new EventController(mockEventService);
   });
-  
+
   describe("getEventsForUser", () => {
     it("should return events from eventService", async () => {
       const userId = "123e4567-e89b-12d3-a456-426614174000";
       const ownerEvent = new Event("Evento Propio", new Date(), "Casa", userId);
-      const invitedEvent = new Event("Evento Invitado", new Date(), "Salon", "otro");
+      const invitedEvent = new Event(
+        "Evento Invitado",
+        new Date(),
+        "Salon",
+        "otro"
+      );
       const mockResult = {
         owner: [ownerEvent],
-        invited: [invitedEvent]
+        invited: [invitedEvent],
       };
       mockEventService.getEventsForUser.mockResolvedValue(mockResult);
 
@@ -49,6 +55,25 @@ describe("EventController", () => {
         ownerId
       );
       expect(mockEventService.createEvent).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("inviteUsersToEvent", () => {
+    it("should delegate to eventService and return result", async () => {
+      const ownerId = "123e4567-e89b-12d3-a456-426614174000";
+      const eventId = "123e4567-e89b-12d3-a456-426614174001";
+      const emails = ["a@test.com", "b@test.com"]; 
+
+      const mockResult = {
+        invited: ["u1", "u2"],
+        skipped: [] as Array<{ email: string; reason: string }>,
+      };
+      mockEventService.inviteUsersToEvent.mockResolvedValue(mockResult);
+
+      const result = await eventController.inviteUsersToEvent(ownerId, eventId, emails);
+
+      expect(mockEventService.inviteUsersToEvent).toHaveBeenCalledWith(ownerId, eventId, emails);
+      expect(result).toEqual(mockResult);
     });
   });
 });
