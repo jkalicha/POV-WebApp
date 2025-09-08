@@ -9,9 +9,9 @@ export class EventPhotoService implements IEventPhotoService {
   private eventPhotoRepository: IEventPhotoRepository;
   private s3Service: S3Service;
 
-  constructor(eventPhotoRepository: IEventPhotoRepository) {
+  constructor(eventPhotoRepository: IEventPhotoRepository, s3Service?: S3Service) {
     this.eventPhotoRepository = eventPhotoRepository;
-    this.s3Service = new S3Service();
+    this.s3Service = s3Service || new S3Service();
   }
 
   public async uploadPhoto(
