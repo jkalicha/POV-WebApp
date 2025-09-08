@@ -141,7 +141,7 @@ Authorization: Bearer <JWT_TOKEN>
 ### Prerrequisitos
 - Node.js 16+
 - PostgreSQL
-- Cuenta AWS con S3 configurado
+- Cuenta AWS con S3 configurado (en produccion, no necesario para development)
 
 ### Variables de entorno
 1. Copia el archivo de ejemplo: `cp backend/.env.example backend/.env`
